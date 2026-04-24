@@ -13,9 +13,10 @@ pipeline {
             steps {
                 bat '''
                 cd %WORKSPACE%
-                del /f /q *.jtl
+                del /f /q *.jtl 2>nul
                 if exist report rmdir /s /q report
-                "C:\\apache-jmeter\\bin\\jmeter.bat" -n -t src/test/resources/jmeter/test.jmx -l result.jtl -e -o report
+
+                "C:\\Users\\TANISH HANDE\\Downloads\\apache-jmeter-5.6.3\\apache-jmeter-5.6.3\\bin\\jmeter.bat" -n -t src/test/resources/jmeter/test.jmx -l result.jtl -e -o report
                 '''
             }
         }
@@ -25,7 +26,10 @@ pipeline {
                 publishHTML(target: [
                     reportDir: 'report',
                     reportFiles: 'index.html',
-                    reportName: 'JMeter Report'
+                    reportName: 'JMeter Report',
+                    keepAll: true,
+                    alwaysLinkToLastBuild: true,
+                    allowMissing: false
                 ])
             }
         }
